@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://4py04fm5sj56"]
+
+[ext_resource type="Texture2D" uid="uid://b3nhsqfy8444j" path="res://assets/crocAvatarTransparent.png" id="1_qcntu"]
+[ext_resource type="Script" path="res://scripts/Croco.cs" id="1_rt62x"]
+[ext_resource type="Script" path="res://scripts/JumpLabel.cs" id="3_vinfv"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_73l14"]
+distance = -605.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mgd0m"]
+radius = 23.0
+height = 82.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_5orcm"]
+distance = 3.0598e-07
+
+[node name="Level" type="Node2D"]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape2D_73l14")
+
+[node name="Croco" type="CharacterBody2D" parent="."]
+position = Vector2(171, 305)
+script = ExtResource("1_rt62x")
+
+[node name="Sprite2D" type="Sprite2D" parent="Croco"]
+texture = ExtResource("1_qcntu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Croco"]
+position = Vector2(2, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_mgd0m")
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_5orcm")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+position = Vector2(1152, 0)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_5orcm")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 381.0
+offset_top = 17.0
+offset_right = 804.0
+offset_bottom = 49.0
+size_flags_vertical = 4
+text = "Use the Arrow Keys to move and Space to jump."
+
+[node name="JumpLabel" type="Label" parent="."]
+offset_left = 1087.0
+offset_top = 25.0
+offset_right = 1127.0
+offset_bottom = 48.0
+script = ExtResource("3_vinfv")
+
+[connection signal="Jumped" from="Croco" to="JumpLabel" method="_on_croco_jumped"]
